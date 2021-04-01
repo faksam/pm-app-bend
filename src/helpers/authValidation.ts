@@ -14,6 +14,7 @@ class UserInputValidation {
    * @returns {object} errors
    */
   static signInInputValidation(req: Request, res: Response, next: NextFunction) {
+    // console.log(req.body);
     const {
       email, password,
     } = req.body;

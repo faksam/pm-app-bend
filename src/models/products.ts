@@ -20,13 +20,17 @@ const productSchema: Schema = new Schema(
       required: true,
     },
     img: {
-      type: String,
+      type: Array,
       required: true,
     },
-    userId: {
-      type: String,
-      required: true,
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
+    comments: [{
+      type: Schema.Types.ObjectId,
+      ref: "Comment",
+    }],
   },
   { timestamps: true }
 )

@@ -1,4 +1,4 @@
-import { Document } from "mongoose"
+import { Document, ObjectId } from "mongoose"
 
 export interface IUser extends Document {
   name: string;
@@ -7,4 +7,5 @@ export interface IUser extends Document {
   phone?: string;
   address: string;
   region: string;
+  products: Array<Object>;
 }

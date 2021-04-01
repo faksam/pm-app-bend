@@ -8,6 +8,7 @@ const ProductsController = new ProductsCtrl();
 
 export default (app: any) => {
   app.get("/products", ProductsController.getProducts);
+  app.get("/products/:id", authorizeUser, ProductsController.getProduct);
   app.post("/products", authorizeUser, ProductValidation, ProductsController.addProduct);
   app.put("/products/:id", authorizeUser, ProductsController.updateProduct);
   app.delete("/products/:id", authorizeUser, ProductsController.deleteProduct);

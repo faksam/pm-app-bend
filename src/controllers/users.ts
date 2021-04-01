@@ -5,8 +5,25 @@ import User from "../models/users"
 export default class UsersCtrl {
   getUsers = async (req: Request, res: Response): Promise<void> => {
     try {
-      const users: IUser[] = await User.find()
+      const users: IUser[] = await User.find();
       res.status(200).json({ users })
+    } catch (error) {
+      throw error
+    }
+  }
+  
+  getUser = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const {
+        params: { id },
+      } = req
+      const foundUser: IUser | null = await User.findById(
+        { _id: id },
+      ).populate("products");
+      res.status(200).json({
+        message: "Found User",
+        user: foundUser,
+      })
     } catch (error) {
       throw error
     }

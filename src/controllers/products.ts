@@ -33,6 +33,25 @@ export default class ProductsCtrl {
     }
   }
 
+  getProduct = async (req: Request, res: Response): Promise<void> => {
+    console.log('in get product');
+    try {
+      const {
+        params: { id },
+      } = req
+      const foundProduct: IProduct | null = await Product.findById(
+        { _id: id },
+      )
+      console.log(foundProduct);
+      res.status(200).json({
+        message: "Found Product",
+        product: foundProduct,
+      })
+    } catch (error) {
+      throw error
+    }
+  }
+
  addProduct = async (req: Request, res: Response): Promise<void> => {
     try {
       const body = req.body as Pick<IProduct, "name" | "description" | "address" | "region" | "img" >
@@ -42,11 +61,21 @@ export default class ProductsCtrl {
         address: body.address,
         region: body.region.toLowerCase(),
         img: body.img,
-        userId: req.params.userId
-      })
+      });
 
-      const newProduct: IProduct = await product.save()
-      const allProducts: IProduct[] = await Product.find()
+      const decode = decodeToken(req.headers.authorization);
+
+      const newProduct: IProduct = await product.save();
+      const allProducts: IProduct[] = await Product.find();
+
+      await User.findById({
+        _id: decode.userId
+      }).then((foundUser) => {
+        if (foundUser) {
+          foundUser.products.push(newProduct);
+          foundUser.save();
+        }
+      })
 
       res
         .status(201)

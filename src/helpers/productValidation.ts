@@ -19,7 +19,7 @@ export const ProductValidation: any = (req: Request, res: Response, next: NextFu
       description: 'required|string',
       address: 'required|string',
       region: 'required|string',
-      img: 'required|string',
+      img: 'required|array',
     }
   );
 
